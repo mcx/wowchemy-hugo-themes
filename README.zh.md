@@ -16,7 +16,7 @@
 <p align="center">
   <a href="https://hugoblox.com/start?utm_source=github&utm_medium=readme&utm_content=cta_start"><b>浏览器中免费试用</b></a>
   &nbsp;•&nbsp;
-  <a href="https://marketplace.visualstudio.com/items?itemName=hugoblox.hugoblox-studio"><b>获取 HugoBlox Studio (VS Code)</b></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=ownable.ownable"><b>获取 HugoBlox Studio (VS Code)</b></a>
 </p>
 
 <p align="center">
@@ -42,11 +42,11 @@
   <a href="https://x.com/LoreLabs_">
     <img src="https://img.shields.io/twitter/follow/LoreLabs_?label=%E5%85%B3%E6%B3%A8&logo=x&logoColor=white&style=flat-square&color=000000" alt="Follow on X">
   </a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=hugoblox.hugoblox-studio">
-    <img src="https://img.shields.io/visual-studio-marketplace/i/hugoblox.hugoblox-studio?label=VS%20Code%20%E5%AE%89%E8%A3%85%E9%87%8F&logo=visualstudiocode&logoColor=white&style=flat-square&color=007ACC" alt="VS Code Installs">
+  <a href="https://marketplace.visualstudio.com/items?itemName=ownable.ownable">
+    <img src="https://img.shields.io/visual-studio-marketplace/i/ownable.ownable?label=VS%20Code%20%E5%AE%89%E8%A3%85%E9%87%8F&logo=visualstudiocode&logoColor=white&style=flat-square&color=007ACC" alt="VS Code Installs">
   </a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=hugoblox.hugoblox-studio">
-    <img src="https://img.shields.io/visual-studio-marketplace/stars/hugoblox.hugoblox-studio?label=VS%20Code%20%E8%AF%84%E5%88%86&logo=visualstudiocode&logoColor=white&style=flat-square&color=007ACC" alt="VS Code Rating">
+  <a href="https://marketplace.visualstudio.com/items?itemName=ownable.ownable">
+    <img src="https://img.shields.io/visual-studio-marketplace/stars/ownable.ownable?label=VS%20Code%20%E8%AF%84%E5%88%86&logo=visualstudiocode&logoColor=white&style=flat-square&color=007ACC" alt="VS Code Rating">
   </a>
 
 </div>
@@ -137,7 +137,7 @@
 ### 选项 2：HugoBlox Studio（适合数据/AI 团队）
 可视化网站构建器的力量，直接集成在 VS Code 中。
 
-1. **安装** [VS Code 市场中的 HugoBlox Studio](https://marketplace.visualstudio.com/items?itemName=hugoblox.hugoblox-studio).
+1. **安装** [VS Code 市场中的 HugoBlox Studio](https://marketplace.visualstudio.com/items?itemName=ownable.ownable).
 2. **打开** 任意 HugoBlox 项目文件夹。
 3. **点击** 菜单中的 HugoBlox Studio 图标开始可视化编辑。
 
@@ -170,7 +170,7 @@ HugoBlox 采用 **Open Core** 模式。**免费套件 (Free Kit)** 达到生产�
 
 免费套件包含：
 
-- **[HugoBlox Studio](https://marketplace.visualstudio.com/items?itemName=hugoblox.hugoblox-studio) 核心**：可视化站点配置、主题设置和内容编辑
+- **[HugoBlox Studio](https://marketplace.visualstudio.com/items?itemName=ownable.ownable) 核心**：可视化站点配置、主题设置和内容编辑
 - **模板 + 积木**，用于作品集、实验室、文档和落地页
 - **Markdown/YAML 优先工作流**，具备 Hugo + Tailwind 性能
 - **Notebook + LaTeX 支持**，用于技术发布
@@ -178,7 +178,7 @@ HugoBlox 采用 **Open Core** 模式。**免费套件 (Free Kit)** 达到生产�
 
 ### 🤖 Researcher Plan (自动化)
 
-当您需要自动化和更低的维护开销时，升级到 [HugoBlox Studio](https://marketplace.visualstudio.com/items?itemName=hugoblox.hugoblox-studio) 的 **Researcher Plan (研究员计划)**（需登录扩展）：
+当您需要自动化和更低的维护开销时，升级到 [HugoBlox Studio](https://marketplace.visualstudio.com/items?itemName=ownable.ownable) 的 **Researcher Plan (研究员计划)**（需登录扩展）：
 
 - **更少时间调试 YAML** (自动修复机器人 + 更安全的配置编辑)
 - **更少时间格式化引用** (魔法导入 + 出版物自动化)

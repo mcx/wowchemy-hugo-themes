@@ -15,7 +15,7 @@
   &nbsp;•&nbsp;
   <a href="https://hugoblox.com/templates/?open=academic-cv&loading=true&utm_source=github&utm_medium=readme">Live Demo</a>
   &nbsp;•&nbsp;
-  <a href="https://marketplace.visualstudio.com/items?itemName=hugoblox.hugoblox-studio"><b>Visual Editor</b></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=ownable.ownable"><b>Visual Editor</b></a>
 </p>
 
 <p align="center">
@@ -114,7 +114,7 @@ Launch a fully hosted site in your browser. No software to install.
 👉 [**Launch in Browser (Free)**](https://hugoblox.com/templates/academic-cv/start?utm_source=github&utm_medium=readme)
 
 ### Option 2: Studio (Visual Editor)
-1) Install [HugoBlox Studio](https://marketplace.visualstudio.com/items?itemName=hugoblox.hugoblox-studio) for VS Code  
+1) Install [HugoBlox Studio](https://marketplace.visualstudio.com/items?itemName=ownable.ownable) for VS Code  
 2) Open this project and edit visually
 
 ### Option 3: CLI (Developers)

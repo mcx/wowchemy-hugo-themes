@@ -16,7 +16,7 @@
 <p align="center">
   <a href="https://hugoblox.com/start?utm_source=github&utm_medium=readme&utm_content=cta_start"><b>Start Free in Browser</b></a>
   &nbsp;•&nbsp;
-  <a href="https://marketplace.visualstudio.com/items?itemName=hugoblox.hugoblox-studio"><b>Get HugoBlox Studio (VS Code)</b></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=ownable.ownable"><b>Get HugoBlox Studio (VS Code)</b></a>
 </p>
 
 <p align="center">
@@ -42,11 +42,11 @@
   <a href="https://x.com/LoreLabs_">
     <img src="https://img.shields.io/twitter/follow/LoreLabs_?label=Follow&logo=x&logoColor=white&style=flat-square&color=000000" alt="Follow on X">
   </a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=hugoblox.hugoblox-studio">
-    <img src="https://img.shields.io/visual-studio-marketplace/i/hugoblox.hugoblox-studio?label=VS%20Code%20Installs&logo=visualstudiocode&logoColor=white&style=flat-square&color=007ACC" alt="VS Code Installs">
+  <a href="https://marketplace.visualstudio.com/items?itemName=ownable.ownable">
+    <img src="https://img.shields.io/visual-studio-marketplace/i/ownable.ownable?label=VS%20Code%20Installs&logo=visualstudiocode&logoColor=white&style=flat-square&color=007ACC" alt="VS Code Installs">
   </a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=hugoblox.hugoblox-studio">
-    <img src="https://img.shields.io/visual-studio-marketplace/stars/hugoblox.hugoblox-studio?label=VS%20Code%20Rating&logo=visualstudiocode&logoColor=white&style=flat-square&color=007ACC" alt="VS Code Rating">
+  <a href="https://marketplace.visualstudio.com/items?itemName=ownable.ownable">
+    <img src="https://img.shields.io/visual-studio-marketplace/stars/ownable.ownable?label=VS%20Code%20Rating&logo=visualstudiocode&logoColor=white&style=flat-square&color=007ACC" alt="VS Code Rating">
   </a>
 
 </div>
@@ -139,7 +139,7 @@ Ideal for **founders, labs, and startups**. Launch a site in minutes.
 ### Option 2: HugoBlox Studio (Best for Data/AI teams)
 The power of a visual website builder, directly inside VS Code.
 
-1. **Install** [HugoBlox Studio from the Marketplace](https://marketplace.visualstudio.com/items?itemName=hugoblox.hugoblox-studio).
+1. **Install** [HugoBlox Studio from the Marketplace](https://marketplace.visualstudio.com/items?itemName=ownable.ownable).
 2. **Open** any HugoBlox project folder.
 3. **Click** the HugoBlox Studio icon in the menu to start visually editing.
 
@@ -172,7 +172,7 @@ HugoBlox is **Open Core**. The **Free Kit** is production-grade and you will alw
 
 The Free Kit includes:
 
-- **[HugoBlox Studio](https://marketplace.visualstudio.com/items?itemName=hugoblox.hugoblox-studio) Core**: Visual site configuration, theming, and content editing
+- **[HugoBlox Studio](https://marketplace.visualstudio.com/items?itemName=ownable.ownable) Core**: Visual site configuration, theming, and content editing
 - **Templates + blocks** for portfolios, labs, docs, and landing pages
 - **Markdown/YAML-first workflow** with Hugo + Tailwind performance
 - **Notebook + LaTeX support** for technical publishing
@@ -180,7 +180,7 @@ The Free Kit includes:
 
 ### 🤖 Pro (Automation)
 
-Upgrade to **Pro** for [HugoBlox Studio](https://marketplace.visualstudio.com/items?itemName=hugoblox.hugoblox-studio) (requires extension login) when you want automation and lower maintenance overhead:
+Upgrade to **Pro** for [HugoBlox Studio](https://marketplace.visualstudio.com/items?itemName=ownable.ownable) (requires extension login) when you want automation and lower maintenance overhead:
 
 - **Less time debugging YAML** (Fix-it Bot + safer config editing)
 - **Less time formatting citations** (Magic Import + publication automation)
