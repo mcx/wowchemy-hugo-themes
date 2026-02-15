@@ -39,8 +39,8 @@
   <a href="https://github.com/HugoBlox/kit">
     <img src="https://img.shields.io/github/stars/HugoBlox/kit?label=Star%20HugoBlox&logo=github&logoColor=white&style=flat-square&color=181717" alt="GitHub Stars">
   </a>
-  <a href="https://x.com/LoreLabs_">
-    <img src="https://img.shields.io/twitter/follow/LoreLabs_?label=Follow&logo=x&logoColor=white&style=flat-square&color=000000" alt="Follow on X">
+  <a href="https://x.com/MakeOwnable">
+    <img src="https://img.shields.io/twitter/follow/MakeOwnable?label=Follow&logo=x&logoColor=white&style=flat-square&color=000000" alt="Follow on X">
   </a>
   <a href="https://marketplace.visualstudio.com/items?itemName=ownable.ownable">
     <img src="https://img.shields.io/visual-studio-marketplace/i/ownable.ownable?label=VS%20Code%20Installs&logo=visualstudiocode&logoColor=white&style=flat-square&color=007ACC" alt="VS Code Installs">
