@@ -59,38 +59,33 @@
   {{/* Slide Preview Image - 16:9 aspect ratio */}}
   <a href="{{ $present_link }}" target="_blank" rel="noopener" class="block relative aspect-video bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900 overflow-hidden" aria-label="{{ printf "%s %s" $present_fullscreen_label ($item.Title | plainify) }}">
     {{ with $resource }}
-      {{ if strings.Contains .MediaType.SubType "svg" }}
-        <img 
-          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-          src="{{ .RelPermalink }}"
-          loading="lazy" 
-          decoding="async"
-          alt="{{ $item.Title | plainify }}">
-      {{ else if ne .MediaType.SubType "gif" }}
-        {{ $image := .Fill "800x450 Center" }}
-        {{ $responsive := partial "functions/process_responsive_image.html" (dict 
-            "image" $image 
-            "mode" "responsive"
-            "sizes" (slice 400 600 800)
-            "formats" (slice "avif" "webp" "jpg")
-        ) }}
-        <img 
-          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-          srcset="{{ $responsive.srcset }}"
-          sizes="(max-width: 768px) 100vw, 50vw"
-          src="{{ $responsive.fallback.RelPermalink }}" 
-          width="{{ $image.Width }}" 
-          height="{{ $image.Height }}"
-          loading="lazy" 
-          decoding="async"
-          {{ if eq $index 0 }}fetchpriority="high"{{ end }}
-          alt="{{ $item.Title | plainify }}">
-      {{ else }}
-        <img 
+      {{/* reflect.IsImageResourceProcessable → false for SVG; GIF skipped to preserve animation */}}
+      {{ $canProcess := and (reflect.IsImageResourceProcessable .) (ne .MediaType.SubType "gif") }}
+      {{ if not $canProcess }}
+        <img
           class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           src="{{ .RelPermalink }}"
           loading="lazy"
           decoding="async"
+          alt="{{ $item.Title | plainify }}">
+      {{ else }}
+        {{ $image := .Fill "800x450 Center" }}
+        {{ $responsive := partial "functions/process_responsive_image.html" (dict
+            "image" $image
+            "mode" "responsive"
+            "sizes" (slice 400 600 800)
+            "formats" (slice "avif" "webp" "jpg")
+        ) }}
+        <img
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          srcset="{{ $responsive.srcset }}"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          src="{{ $responsive.fallback.RelPermalink }}"
+          width="{{ $image.Width }}"
+          height="{{ $image.Height }}"
+          loading="lazy"
+          decoding="async"
+          {{ if eq $index 0 }}fetchpriority="high"{{ end }}
           alt="{{ $item.Title | plainify }}">
       {{ end }}
     {{ else }}

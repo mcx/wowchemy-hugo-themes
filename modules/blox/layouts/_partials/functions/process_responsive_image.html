@@ -32,29 +32,21 @@ Returns: Map with processed images and srcset string
 {{ $srcset_parts := slice }}
 {{ $fallback_image := "" }}
 
-{{/* Check if image supports processing - only allow known processable formats */}}
-{{ $can_process := false }}
-{{ if $image.MediaType }}
-  {{ $format := $image.MediaType.SubType }}
-  {{ $isJPEG := eq $format "jpeg" }}
-  {{ $isPNG := eq $format "png" }}
-  {{ $isWebP := eq $format "webp" }}
-  {{ $can_process = or $isJPEG $isPNG $isWebP }}
-{{ else }}
-  {{/* Try detecting by file extension if MediaType not available */}}
-  {{ $ext := path.Ext $image.RelPermalink | lower }}
-  {{ $isJPEG := or (eq $ext ".jpg") (eq $ext ".jpeg") }}
-  {{ $isPNG := eq $ext ".png" }}
-  {{ $isWebP := eq $ext ".webp" }}
-  {{ $can_process = or $isJPEG $isPNG $isWebP }}
-{{ end }}
+{{/*
+  Processability check using Hugo's reflect API:
+  - reflect.IsImageResourceProcessable: true for JPEG, PNG, WebP, GIF, TIFF, BMP — false for SVG.
+  - GIF exclusion: Hugo *can* process GIFs, but doing so strips animation frames.
+    We intentionally skip GIF processing to preserve user-optimized animated GIFs.
+*/}}
+{{ $isProcessable := reflect.IsImageResourceProcessable $image }}
+{{ $isGIF := and $isProcessable (eq $image.MediaType.SubType "gif") }}
 
-{{ if $can_process }}
+{{ if and $isProcessable (not $isGIF) }}
   {{/* Handle responsive mode - for already processed images */}}
   {{ if eq $mode "responsive" }}
     {{/* Convert to WebP if needed */}}
     {{ $base_image := $image }}
-    {{ if ne $image.MediaType.SubType "gif" }}{{ $base_image = $image.Process "webp" }}{{ end }}
+    {{ $base_image = $image.Process "webp" }}
     
     {{/* Create responsive variants by resizing down from the processed image */}}
     {{ range $width := $sizes }}
@@ -138,7 +130,7 @@ Returns: Map with processed images and srcset string
   {{- end -}}
   {{ end }}
 {{- else -}}
-  {{/* Handle unsupported formats (SVG, GIF) - skip srcset as width/height are unavailable for SVGs */}}
+  {{/* Non-processable (SVG) or intentionally skipped (GIF): pass through without srcset */}}
   {{- $fallback_image = $image -}}
   {{- $processed_images = $processed_images | append $image -}}
 {{- end -}}

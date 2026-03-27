@@ -211,7 +211,9 @@
 
             {{ $img := $image_resource }}
             {{ if $img }}
-              {{ $img = $img.Fill "600x400 Center webp" }}
+              {{ if reflect.IsImageResourceProcessable $img }}
+                {{ $img = $img.Fill "600x400 Center webp" }}
+              {{ end }}
               {{ $alt := $name | plainify }}
               {{ $header_content = printf "<img src=\"%s\" alt=\"%s\" class=\"w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500\">" $img.RelPermalink $alt }}
             {{ else if $image_url }}

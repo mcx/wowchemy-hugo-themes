@@ -14,8 +14,7 @@
 
 <div class="flex pt-12 pb-4">
   {{ if $avatar }}
-    {{ $isSVG := eq $avatar.MediaType.SubType "svg" }}
-    {{ if $isSVG }}
+    {{ if not (reflect.IsImageResourceProcessable $avatar) }}
     <img
       class="mr-4 h-24 w-24 {{if ne $avatar_shape "square"}}rounded-full{{end}}"
       src="{{ $avatar.RelPermalink }}"

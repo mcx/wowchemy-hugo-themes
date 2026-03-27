@@ -36,17 +36,23 @@
         {{ end }}
       {{ end }}
       {{ with $resource }}
-        {{ if strings.Contains .MediaType.SubType "svg" }}
+        {{/*
+          Image processing gate:
+          - reflect.IsImageResourceProcessable → false for SVG (not processable by Hugo).
+          - GIF: processable by Hugo but we skip to preserve animation frames.
+        */}}
+        {{ $canProcess := and (reflect.IsImageResourceProcessable .) (ne .MediaType.SubType "gif") }}
+        {{ if not $canProcess }}
           <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="block">
-            <img class="w-full h-full transition-transform duration-500 ease-out group-hover:scale-105 {{ if $fill_image }}object-fill{{ else }}object-contain{{ end }}" 
+            <img class="w-full h-full transition-transform duration-500 ease-out group-hover:scale-105 {{ if $fill_image }}object-fill{{ else }}object-contain{{ end }}"
                  src="{{ .RelPermalink }}"
-                 loading="lazy" 
+                 loading="lazy"
                  decoding="async"
                  {{ if eq $index 0 }}fetchpriority="high"{{ end }}
                  style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;"
                  alt="{{ $item.Title | plainify }} featured image">
           </a>
-        {{ else if ne .MediaType.SubType "gif" }}
+        {{ else }}
           {{ $original_image := "" }}
           {{ if $fill_image }}
             {{ $original_image = .Fill (printf "800x450 %s" $anchor) }}
@@ -69,17 +75,6 @@
                  loading="lazy" 
                  decoding="async"
                  {{ if eq $index 0 }}fetchpriority="high"{{ end }}
-                 style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;"
-                 alt="{{ $item.Title | plainify }} featured image">
-          </a>
-        {{ else }}
-          <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="block">
-            <img class="w-full h-full transition-transform duration-500 ease-out group-hover:scale-105 {{ if $fill_image }}object-fill{{ else }}object-contain{{ end }}"
-                 src="{{ .RelPermalink }}"
-                 width="{{ .Width }}"
-                 height="{{ .Height }}"
-                 loading="lazy"
-                 decoding="async"
                  style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;"
                  alt="{{ $item.Title | plainify }} featured image">
           </a>

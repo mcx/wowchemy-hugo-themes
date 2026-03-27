@@ -95,10 +95,14 @@
 
       {{ $img_data := dict }}
       {{ if $image_resource }}
-        {{ $isSVG := eq $image_resource.MediaType.SubType "svg" }}
-        {{ $isGIF := eq $image_resource.MediaType.SubType "gif" }}
-        {{ if or $isSVG $isGIF }}
-          {{/* SVG/GIF: no processing, just pass through */}}
+        {{/*
+          Image processing gate:
+          - reflect.IsImageResourceProcessable → false for SVG (not processable by Hugo).
+          - GIF: processable by Hugo but we skip to preserve animation frames.
+        */}}
+        {{ $canProcess := and (reflect.IsImageResourceProcessable $image_resource) (ne $image_resource.MediaType.SubType "gif") }}
+        {{ if not $canProcess }}
+          {{/* SVG or GIF: no processing, just pass through */}}
           {{ $img_data = dict "src" $image_resource.RelPermalink }}
         {{ else if eq $block_type "cta-image-paragraph" }}
           {{/* Responsive mode: generate srcset via process_responsive_image */}}

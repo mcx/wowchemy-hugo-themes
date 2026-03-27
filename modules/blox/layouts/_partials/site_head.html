@@ -202,8 +202,7 @@
     {{/* See Hugo note on linking assets in styles: https://github.com/gohugoio/hugoThemes#common-permalink-issues */}}
     {{ $bg_img := resources.Get (printf "media/%s" .Params.design.background.image.filename) }}
     {{ if $bg_img }}
-      {{/* Exception for SVG as Hugo doesn't yet support image processing on SVG. */}}
-      {{ if ne $bg_img.MediaType.SubType "svg" }}
+      {{ if reflect.IsImageResourceProcessable $bg_img }}
         {{ $bg_img = $bg_img.Fit "1920x1920 webp" }}
       {{ end }}
       <style>

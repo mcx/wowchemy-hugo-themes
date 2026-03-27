@@ -103,9 +103,9 @@
   {{ $img = $image_resource }}
   
   {{ if $img }}
-    {{ $isSVG := eq $img.MediaType.SubType "svg" }}
-    {{ $isGIF := eq $img.MediaType.SubType "gif" }}
-    {{ if not (or $isSVG $isGIF) }}
+    {{/* reflect.IsImageResourceProcessable → false for SVG; GIF skipped to preserve animation */}}
+    {{ $canProcess := and (reflect.IsImageResourceProcessable $img) (ne $img.MediaType.SubType "gif") }}
+    {{ if $canProcess }}
       {{ $responsive := partial "functions/process_responsive_image.html" (dict
           "image" $img
           "mode" "fill"
@@ -126,8 +126,7 @@
         </div>
       </div>
     {{ else }}
-      {{/* Handle SVG/GIF without processing */}}
-      {{ if not $isSVG }}{{ $img = $img.Process "webp" }}{{ end }}
+      {{/* SVG or GIF: pass through without responsive processing */}}
       <div class="w-full bg-gray-200 dark:bg-gray-900 flex flex-wrap items-center justify-center">
         <div class="w-full bg-white rounded dark:bg-gray-800">
           <div class="h-2/4 sm:h-64 overflow-hidden w-full">

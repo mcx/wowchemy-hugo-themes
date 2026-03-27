@@ -11,7 +11,7 @@
 
 {{/* Search for an image "*cover*" in page folder */}}
 {{ $resource := (.Resources.ByType "image").GetMatch "*cover*" }}
-{{ if eq $resource nil }}
+{{ if not (reflect.IsResource $resource) }}
   {{/* Otherwise fall back to the image file specified in front matter */}}
   {{ $filename := "" }}
   {{ if .Params.cover }}
@@ -25,15 +25,20 @@
   {{ if $filename }}
     {{/* Check if it's a remote URL */}}
     {{ if or (strings.HasPrefix $filename "http://") (strings.HasPrefix $filename "https://") }}
-      {{ $resource = resources.GetRemote $filename }}
-      {{ if eq $resource nil }}
+      {{ with resources.GetRemote $filename }}
+        {{ if reflect.IsResource . }}
+          {{ $resource = . }}
+        {{ else }}
+          {{ warnf "Remote cover image not found: %s" $filename }}
+        {{ end }}
+      {{ else }}
         {{ warnf "Remote cover image not found: %s" $filename }}
       {{ end }}
     {{ else }}
       {{/* Search in page folder */}}
       {{ $resource = (.Resources.ByType "image").GetMatch $filename }}
       {{/* Otherwise in `assets/media/` folder */}}
-      {{ if eq $resource nil }} {{ $resource = resources.GetMatch (path.Join "media" $filename) }} {{ end }}
+      {{ if not (reflect.IsResource $resource) }} {{ $resource = resources.GetMatch (path.Join "media" $filename) }} {{ end }}
     {{ end }}
   {{ end }}
 {{ end }}

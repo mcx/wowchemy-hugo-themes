@@ -277,9 +277,9 @@
         <div class="relative h-48 overflow-hidden">
           {{ $image := $item.Resources.GetMatch "{featured,cover,thumbnail}*" }}
           {{ if $image }}
-            {{ if strings.Contains $image.MediaType.SubType "svg" }}
-              <img 
-                src="{{ $image.RelPermalink }}" 
+            {{ if not (reflect.IsImageResourceProcessable $image) }}
+              <img
+                src="{{ $image.RelPermalink }}"
                 alt="{{ $item.Title }}"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               >

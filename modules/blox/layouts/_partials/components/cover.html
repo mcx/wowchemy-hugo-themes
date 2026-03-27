@@ -70,10 +70,15 @@
   {{ $cover_height = 1080 }}
 {{ end }}
 
-{{/* Generate responsive images */}}
+{{/*
+  Generate responsive images.
+  - reflect.IsImageResourceProcessable → false for SVG (not processable by Hugo).
+  - GIF: processable by Hugo but we skip to preserve animation frames.
+*/}}
 {{ $processed_cover := $cover }}
 {{ $srcset := "" }}
-{{ if ne $cover.MediaType.SubType "gif" }}
+{{ $canProcess := and (reflect.IsImageResourceProcessable $cover) (ne $cover.MediaType.SubType "gif") }}
+{{ if $canProcess }}
   {{ $fill_spec := printf "%dx%d Center q85 webp" $cover_width $cover_height }}
   {{ $processed_cover = $cover.Fill $fill_spec }}
   
@@ -110,8 +115,8 @@
   <div class="absolute inset-0 overflow-hidden" style="{{ $mask_style | safeCSS }}">
     {{/* Cover Image */}}
     <div class="absolute inset-0">
-      {{ if ne $cover.MediaType.SubType "gif" }}
-        <img 
+      {{ if $canProcess }}
+        <img
           srcset="{{ $srcset }}"
           sizes="100vw"
           src="{{ $processed_cover.RelPermalink }}" 

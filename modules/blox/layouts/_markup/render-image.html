@@ -27,9 +27,13 @@
   <div class="flex justify-center	">
     <div class="w-full" {{ with $max_width }}style="max-width: {{.}}"{{end}}>
       {{- if $img -}}
-        {{- $isSVG := eq $img.MediaType.SubType "svg" -}}
-        {{- $isGIF := eq $img.MediaType.SubType "gif" -}}
-        {{- if $isSVG | or $isGIF -}}
+        {{/*
+          Image processing gate:
+          - reflect.IsImageResourceProcessable → false for SVG (not processable by Hugo).
+          - GIF: processable by Hugo but we skip to preserve animation frames.
+        */}}
+        {{- $canProcess := and (reflect.IsImageResourceProcessable $img) (ne $img.MediaType.SubType "gif") -}}
+        {{- if not $canProcess -}}
           <img alt="{{ $alt }}"
            src="{{ $img.RelPermalink }}"
            loading="lazy"

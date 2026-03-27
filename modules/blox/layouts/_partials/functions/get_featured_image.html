@@ -11,7 +11,7 @@
 
 {{/* Search for an image "*featured*" in page folder */}}
 {{ $resource := (.Resources.ByType "image").GetMatch "*featured*" }}
-{{ if eq $resource nil }}
+{{ if not (reflect.IsResource $resource) }}
   {{/* Otherwise fall back the image file specified in front matter */}}
   {{ $filename := "" }}
   {{ if and .Params.image (reflect.IsMap .Params.image) }}
@@ -20,7 +20,7 @@
   {{/* Search in page folder */}}
   {{ $resource = (.Resources.ByType "image").GetMatch $filename }}
   {{/* Otherwise in `assets/media/` folder */}}
-  {{ if eq $resource nil }} {{ $resource = resources.GetMatch (path.Join "media" $filename) }} {{ end }}
+  {{ if not (reflect.IsResource $resource) }} {{ $resource = resources.GetMatch (path.Join "media" $filename) }} {{ end }}
 {{ end }}
 
 {{ return $resource }}
