@@ -164,11 +164,18 @@
 
         {{/* Avatar */}}
         {{ $status_icon := "" }}
-        {{ $status := $profile.status }}
-        {{ if and $status (reflect.IsMap $status) }}
-          {{ $status_icon_raw := index $status "icon" }}
-          {{ if eq (printf "%T" $status_icon_raw) "string" }}
-            {{ $status_icon = strings.TrimSpace $status_icon_raw }}
+        {{ $show_status := true }}
+        {{ $show_status_raw := index $design "show_status" }}
+        {{ if eq (printf "%T" $show_status_raw) "bool" }}
+          {{ $show_status = $show_status_raw }}
+        {{ end }}
+        {{ if $show_status }}
+          {{ $status := $profile.status }}
+          {{ if and $status (reflect.IsMap $status) }}
+            {{ $status_icon_raw := index $status "icon" }}
+            {{ if eq (printf "%T" $status_icon_raw) "string" }}
+              {{ $status_icon = strings.TrimSpace $status_icon_raw }}
+            {{ end }}
           {{ end }}
         {{ end }}
 
