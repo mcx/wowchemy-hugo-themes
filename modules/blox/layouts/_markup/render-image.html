@@ -58,6 +58,9 @@
                {{- with $img_class }} class="{{.}}"{{end}} />
         {{- end }}
       {{- else -}}
+        {{- if not $is_remote -}}
+          {{- warnf "render-image: could not resolve local image %q — %s" $destination .Position -}}
+        {{- end -}}
         <img src="{{ $destination | safeURL }}" alt="{{ $alt }}" loading="lazy" {{ if $zoom }}data-zoomable{{end}}
              {{- with $width }} width="{{.}}"{{end}} {{- with $height }} height="{{.}}"{{end}}
              {{- with $img_class }} class="{{.}}"{{end}} />
