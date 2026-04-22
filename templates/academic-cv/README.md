@@ -2,6 +2,9 @@
 
 [![Screenshot](.github/preview.webp)](https://hugoblox.com/templates/academic-cv?utm_source=github&utm_medium=readme&utm_content=preview)
 
+<!-- TODO: Replace with a short demo video showing Hugo Chat generating an academic profile page -->
+<!-- https://github.com/user-attachments/assets/REPLACE_ME -->
+
 <h1 align="center">The Portfolio That Works While You Sleep</h1>
 
 <p align="center">
