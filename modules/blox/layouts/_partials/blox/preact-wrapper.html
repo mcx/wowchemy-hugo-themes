@@ -148,6 +148,23 @@
   {{ $props = merge $props (dict "icon_svgs" $icon_svgs) }}
 {{ end }}
 
+{{/* Resolve CTA icons from pricing tiers (content.tiers[*].cta.icon) */}}
+{{ with $block.content.tiers }}
+  {{ range . }}
+    {{ with .cta.icon }}
+      {{ if not (index $icon_svgs .) }}
+        {{ $icon_data := partial "functions/get_icon_data" (dict "name" .) }}
+        {{ if $icon_data }}
+          {{ $icon_svgs = merge $icon_svgs (dict . $icon_data) }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ if gt (len $icon_svgs) 0 }}
+  {{ $props = merge $props (dict "icon_svgs" $icon_svgs) }}
+{{ end }}
+
 {{/* Convert props to JSON for client-side rendering */}}
 {{ $propsJSON := $props | jsonify }}
 
