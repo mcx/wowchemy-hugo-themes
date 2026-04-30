@@ -36,6 +36,35 @@ sections:
           size: cover
           position: center
           parallax: false
+  - block: logos
+    content:
+      title: Trusted by teams at
+      items:
+        - icon: brands/github
+          name: GitHub
+        - icon: brands/google
+          name: Google
+        - icon: brands/microsoft
+          name: Microsoft
+        - icon: brands/nvidia
+          name: NVIDIA
+        - icon: brands/openai
+          name: OpenAI
+        - icon: brands/anthropic
+          name: Anthropic
+        - icon: brands/stripe
+          name: Stripe
+        - icon: brands/vercel
+          name: Vercel
+    design:
+      layout: marquee
+      logo_style: grayscale
+      logo_size: md
+      marquee_speed: 35
+      css_class: "bg-gray-50 dark:bg-gray-900"
+      spacing:
+        padding: ["2rem", 0, "2rem", 0]
+
   - block: stats
     content:
       items:

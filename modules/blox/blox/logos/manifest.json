@@ -1,13 +1,15 @@
 {
   "id": "logos",
   "name": "Logos",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "license": "MIT",
-  "category": "content",
-  "tags": ["logos", "partners", "sponsors", "collaborators", "brands", "clients", "affiliations"],
-  "description": "Display partner, sponsor, or collaborator logos with interactive effects and multiple display modes",
+  "category": "marketing",
+  "intent": ["inform"],
+  "verticals": ["startup", "saas", "agency", "academic-cv", "lab", "dev-portfolio"],
+  "tags": ["logos", "social-proof", "partners", "sponsors", "clients", "brands", "affiliations", "marquee"],
+  "description": "Social-proof logo row: display partner, client, or sponsor logos via the brands icon pack (or image files). Supports row, grid, and infinite-marquee layouts with grayscale/color/white filter styles.",
   "author": "Hugo Blox",
   "homepage": "https://hugoblox.com/blocks/",
   "repository": "https://github.com/HugoBlox/kit",
-  "keywords": ["hugo", "static-site", "logos", "partners", "sponsors", "carousel", "marquee"]
+  "keywords": ["hugo", "static-site", "logos", "social-proof", "brands", "marquee"]
 }
