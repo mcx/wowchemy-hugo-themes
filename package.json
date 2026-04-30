@@ -41,7 +41,8 @@
     "vendor:libs": "vite build --config vite.config.js",
     "vendor:libs:watch": "vite build --config vite.config.js --watch",
     "vendor:update-and-build": "pnpm up katex mermaid markmap-autoloader alpinejs plotly.js preact --latest && pnpm vendor:libs",
-    "test:releaser": "poetry run python scripts/test_release_modules.py"
+    "test:releaser": "poetry run python scripts/test_release_modules.py",
+    "check:template-deps": "node scripts/check-template-deps.mjs"
   },
   "browserslist": "> 1%"
 }

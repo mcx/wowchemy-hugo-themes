@@ -72,6 +72,11 @@ security:
       - ^HUGO_
       # Allow continuous integration vars
       - ^CI$
+  # Note: security.node.permissions is intentionally NOT set here. Hugo's
+  # built-in defaults already permit `tailwindcss` for allowAddons,
+  # allowChildProcess, and allowWorker (see https://gohugo.io/configuration/security/).
+  # Restating the defaults would create maintenance debt if upstream evolves them
+  # (e.g. when @tailwindcss/oxide native bindings need new permissions).
 outputFormats:
   backlinks:
     mediaType: application/json
@@ -103,7 +108,10 @@ params:
     address_format: en-us
 module:
   hugoVersion:
-    min: "0.160.0"
+    # 0.161.0 introduced css.TailwindCSS Node.js permission sandbox
+    # (Node >= 22 required) and dropped support for the standalone
+    # tailwindcss binary. The npm @tailwindcss/cli package is required.
+    min: "0.161.0"
     extended: true
   imports:
     - path: github.com/HugoBlox/kit/modules/analytics

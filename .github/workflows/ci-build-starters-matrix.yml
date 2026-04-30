@@ -43,7 +43,25 @@ env:
     NODE_VERSION: "22"
 
 jobs:
+    audit-template-deps:
+        name: Audit template Tailwind dependencies
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version: "${{ env.NODE_VERSION }}"
+
+            - name: Verify every template declares @tailwindcss/cli + tailwindcss
+              # Hugo >= 0.161.0 requires the npm @tailwindcss/cli package; the
+              # standalone tailwindcss binary is no longer accepted.
+              run: node scripts/check-template-deps.mjs
+
     build-templates:
+        needs: audit-template-deps
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
@@ -99,6 +117,13 @@ jobs:
               # and may not have lock files checked into the repo
               run: pnpm install --no-frozen-lockfile
 
+            - name: Verify @tailwindcss/cli resolves via node_modules
+              # Hugo >= 0.161.0 invokes node @tailwindcss/cli/dist/index.mjs directly.
+              # If require.resolve fails here, Hugo will fall back to PATH and emit
+              # "binary tailwindcss is not a Node.js script" at build time.
+              working-directory: ${{ matrix.starter.path }}
+              run: node -e "require.resolve('@tailwindcss/cli/package.json')"
+
             - name: Read Hugo version from template
               id: hugo
               run: |
@@ -123,6 +148,7 @@ jobs:
 
     smoke-test-latest:
         name: Test site on latest Hugo (allowed to fail)
+        needs: audit-template-deps
         runs-on: ubuntu-latest
         continue-on-error: true
         steps:
@@ -148,6 +174,10 @@ jobs:
               working-directory: test
               run: pnpm install --no-frozen-lockfile
 
+            - name: Verify @tailwindcss/cli resolves via node_modules
+              working-directory: test
+              run: node -e "require.resolve('@tailwindcss/cli/package.json')"
+
             - name: Cache Hugo resources (test)
               uses: actions/cache@v5
               with:
@@ -168,6 +198,7 @@ jobs:
 
     canary-academic-latest:
         name: academic-cv on latest Hugo (allowed to fail)
+        needs: audit-template-deps
         runs-on: ubuntu-latest
         continue-on-error: true
         steps:
@@ -190,6 +221,10 @@ jobs:
               working-directory: templates/academic-cv
               run: pnpm install --no-frozen-lockfile
 
+            - name: Verify @tailwindcss/cli resolves via node_modules
+              working-directory: templates/academic-cv
+              run: node -e "require.resolve('@tailwindcss/cli/package.json')"
+
             - name: Cache Hugo resources (template)
               uses: actions/cache@v5
               with:
@@ -210,6 +245,7 @@ jobs:
 
     smoke-test-min:
         name: Test site on minimum supported Hugo
+        needs: audit-template-deps
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
@@ -233,6 +269,10 @@ jobs:
             - name: Install test dependencies
               working-directory: test
               run: pnpm install --no-frozen-lockfile
+
+            - name: Verify @tailwindcss/cli resolves via node_modules
+              working-directory: test
+              run: node -e "require.resolve('@tailwindcss/cli/package.json')"
 
             - name: Read minimum Hugo version from framework
               id: min
