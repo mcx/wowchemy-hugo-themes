@@ -6,7 +6,6 @@
 
 import {Icon} from "../../shared/components/Icon.jsx";
 
-// Simple markdown renderer
 function renderText(text) {
   if (!text) return "";
   return String(text)
@@ -16,23 +15,11 @@ function renderText(text) {
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 }
 
-// Arrow icon for CTA buttons
-const ArrowIcon = () => (
-  <svg aria-hidden="true" class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-    <path
-      fill-rule="evenodd"
-      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-      clip-rule="evenodd"
-    />
-  </svg>
-);
+const ARROW_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>`;
 
 function CtaItem({item, idx, imageData, featureIconSvg}) {
   const isReversed = idx % 2 === 1;
-  const hasImage = !!imageData;
-  const _featureIcon = item.feature_icon || "check";
 
-  // Resolve button link
   const buttonUrl = item.button?.url || "";
   let isExternal = false;
   if (buttonUrl) {
@@ -47,65 +34,78 @@ function CtaItem({item, idx, imageData, featureIconSvg}) {
   const features = Array.isArray(item.features) ? item.features : typeof item.features === "string" ? [item.features] : [];
 
   return (
-    <div class={`gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 ${hasImage ? "md:grid md:grid-cols-2" : ""} sm:py-16 lg:px-6`}>
+    <div
+      class={`flex flex-col gap-10 items-center py-10 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 ${
+        imageData ? "md:flex-row md:gap-16" : ""
+      } ${isReversed && imageData ? "md:flex-row-reverse" : ""}`}
+    >
       {/* Image */}
-      {hasImage &&
-        (imageData.srcset ? (
-          <img
-            class="w-full"
-            srcset={imageData.srcset}
-            sizes="(max-width: 768px) 100vw, 50vw"
-            src={imageData.src}
-            width={imageData.width}
-            height={imageData.height}
-            alt={item.title || ""}
-            style={isReversed ? {order: 1} : undefined}
-          />
-        ) : (
-          <img
-            class="w-full"
-            src={imageData.src}
-            width={imageData.width}
-            height={imageData.height}
-            alt={item.title || ""}
-            style={isReversed ? {order: 1} : undefined}
-          />
-        ))}
+      {imageData && (
+        <div class="w-full md:w-1/2 flex-shrink-0">
+          <div class="relative overflow-hidden rounded-2xl shadow-xl ring-1 ring-gray-100 dark:ring-gray-700">
+            {imageData.srcset ? (
+              <img
+                class="w-full h-auto object-cover"
+                srcset={imageData.srcset}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                src={imageData.src}
+                width={imageData.width}
+                height={imageData.height}
+                alt={item.title || ""}
+              />
+            ) : (
+              <img class="w-full h-auto object-cover" src={imageData.src} width={imageData.width} height={imageData.height} alt={item.title || ""} />
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Text Content */}
-      <div class="mt-4 md:mt-0">
+      <div class="w-full md:w-1/2">
         {item.title && (
           <h2
-            class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
+            class="mb-4 text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white"
             dangerouslySetInnerHTML={{__html: renderText(item.title)}}
           />
         )}
         {item.text && (
-          <p class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400" dangerouslySetInnerHTML={{__html: renderText(item.text)}} />
+          <p class="mb-8 text-lg text-gray-500 dark:text-gray-400 leading-relaxed" dangerouslySetInnerHTML={{__html: renderText(item.text)}} />
         )}
 
-        {/* Feature List */}
         {features.length > 0 && (
-          <ul>
+          <ul class="space-y-4 mb-8">
             {features.map((feature, fIdx) => (
-              <li key={fIdx} class="relative mb-4 pl-6">
-                {featureIconSvg ? <Icon svg={featureIconSvg} attributes={{class: "inline-block pr-5", style: "height: 1em;"}} /> : null}
-                <span dangerouslySetInnerHTML={{__html: renderText(String(feature))}} />
+              <li key={fIdx} class="flex items-start gap-3">
+                <span class="mt-0.5 flex-shrink-0 inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary-100 dark:bg-primary-900/40">
+                  {featureIconSvg ? (
+                    <Icon
+                      svg={featureIconSvg}
+                      attributes={{
+                        class: "text-primary-600 dark:text-primary-400",
+                        style: "width:0.65rem;height:0.65rem",
+                      }}
+                    />
+                  ) : (
+                    <svg class="w-3 h-3 text-primary-600 dark:text-primary-400" fill="currentColor" viewBox="0 0 12 12" aria-hidden="true">
+                      <path d="M10.28 2.28a1 1 0 0 0-1.44 0L4 7.12 3.16 6.28a1 1 0 0 0-1.44 1.44l2 2a1 1 0 0 0 1.44 0l6-6a1 1 0 0 0 0-1.44z" />
+                    </svg>
+                  )}
+                </span>
+                <span class="text-gray-700 dark:text-gray-300" dangerouslySetInnerHTML={{__html: renderText(String(feature))}} />
               </li>
             ))}
           </ul>
         )}
 
-        {/* CTA Button */}
         {item.button?.text && item.button?.url && (
           <a
             href={buttonUrl}
             target={isExternal ? "_blank" : undefined}
             rel={isExternal ? "noopener" : undefined}
-            class="mt-3 inline-flex items-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900"
+            class="inline-flex items-center gap-2 rounded-full bg-primary-600 text-white px-6 py-3 text-sm font-semibold hover:bg-primary-700 transition-all duration-200 shadow-sm hover:shadow-md"
           >
             {item.button.text}
-            <ArrowIcon />
+            <span class="w-4 h-4 flex-shrink-0" dangerouslySetInnerHTML={{__html: ARROW_SVG}} />
           </a>
         )}
       </div>

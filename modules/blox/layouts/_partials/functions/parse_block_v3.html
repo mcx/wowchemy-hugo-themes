@@ -55,6 +55,16 @@
 {{ $gradient_mesh := $bg.gradient_mesh | default dict }}
 {{ if $gradient_mesh.enable }}
   {{ $has_gradient_mesh = true }}
+
+  {{/* Stacking-fix: the mesh wrapper sits at z-index:-10, while .home-section-bg sits at z-index:-1.
+       If we leave bg-color on home-section-bg, the colour paints OVER the mesh and the orbs are hidden.
+       Migrate the bg-color off home-section-bg and onto the section element itself, so the section's
+       own background paints BEHIND the mesh layer (orbs visible) and the radial gradient + image layers
+       on home-section-bg paint ABOVE the mesh (still visible). */}}
+  {{ if $style_bg }}
+    {{ $style = print $style $style_bg }}
+    {{ $style_bg = "" }}
+  {{ end }}
   {{ $mesh_style := $gradient_mesh.style | default "orbs" }}
   {{ $mesh_animation_raw := $gradient_mesh.animation | default "pulse" }}
   {{ $mesh_intensity := $gradient_mesh.intensity | default "subtle" }}

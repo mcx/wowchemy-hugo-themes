@@ -119,8 +119,9 @@ function gridColsClass(count) {
 
 // Gradient text uses bg-clip-text so colors come from the gradient utilities
 // (full classes for Tailwind's source scanner to pick up at build time)
-const GRADIENT_NUMBER_CLS = "bg-gradient-to-br from-primary-600 via-primary-500 to-secondary-500 dark:from-primary-400 dark:via-primary-300 dark:to-secondary-400 bg-clip-text text-transparent";
-const SOLID_NUMBER_CLS    = "text-gray-900 dark:text-white";
+const GRADIENT_NUMBER_CLS =
+  "bg-gradient-to-br from-primary-600 via-primary-500 to-secondary-500 dark:from-primary-400 dark:via-primary-300 dark:to-secondary-400 bg-clip-text text-transparent";
+const SOLID_NUMBER_CLS = "text-gray-900 dark:text-white";
 
 // ─── Stat Item (Cards) ───────────────────────────────────────────────
 function StatCard({item, iconSvg, numbersGradient}) {

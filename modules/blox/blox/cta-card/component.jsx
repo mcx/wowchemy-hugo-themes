@@ -47,25 +47,22 @@ export const CtaCardBlock = ({content, design, _id, button_icon_svg}) => {
     // Legacy detection: design.background.gradient.start using saturated Tailwind tokens
     const bg = design?.background || {};
     const gradientStart = bg.gradient?.start || "";
-    const legacyDarkBg = ["primary-7", "primary-8", "primary-9", "secondary-7", "secondary-8", "secondary-9"].some((p) => gradientStart.startsWith(p));
-    textColorMode = (looksColored || legacyDarkBg) ? "light" : "dark";
+    const legacyDarkBg = ["primary-7", "primary-8", "primary-9", "secondary-7", "secondary-8", "secondary-9"].some((p) =>
+      gradientStart.startsWith(p),
+    );
+    textColorMode = looksColored || legacyDarkBg ? "light" : "dark";
   }
 
   // Title, body, and button classes — full literals only
-  const titleClasses = textColorMode === "light"
-    ? "text-white"
-    : "text-gray-900 dark:text-white";
-  const bodyClasses = textColorMode === "light"
-    ? "text-white/80"
-    : "text-gray-700 dark:text-gray-300";
+  const titleClasses = textColorMode === "light" ? "text-white" : "text-gray-900 dark:text-white";
+  const bodyClasses = textColorMode === "light" ? "text-white/80" : "text-gray-700 dark:text-gray-300";
   // Button: in "light" mode (coloured card), keep a white pill across both themes for consistency.
   // In "dark" mode (light card), use a dark pill.
-  const buttonBgClasses = textColorMode === "light"
-    ? "bg-white ring-1 ring-white/40 hover:bg-white/95 hover:ring-white/60 shadow-lg"
-    : "bg-gray-900 dark:bg-white ring-1 ring-gray-900/10 dark:ring-white/10 hover:bg-gray-800 dark:hover:bg-gray-100 shadow-lg";
-  const buttonTextClasses = textColorMode === "light"
-    ? "text-gray-900"
-    : "text-white dark:text-gray-900";
+  const buttonBgClasses =
+    textColorMode === "light"
+      ? "bg-white ring-1 ring-white/40 hover:bg-white/95 hover:ring-white/60 shadow-lg"
+      : "bg-gray-900 dark:bg-white ring-1 ring-gray-900/10 dark:ring-white/10 hover:bg-gray-800 dark:hover:bg-gray-100 shadow-lg";
+  const buttonTextClasses = textColorMode === "light" ? "text-gray-900" : "text-white dark:text-gray-900";
 
   // Button Logic
   const button = content?.button || {};

@@ -16,7 +16,9 @@ function BillingToggle({billing, setBilling, toggle}) {
   const isYearly = billing === "yearly";
   return (
     <div class="flex items-center justify-center gap-4 mb-10">
-      <span class={`text-sm transition-colors ${isYearly ? "font-normal text-gray-400 dark:text-gray-500" : "font-semibold text-gray-900 dark:text-white"}`}>
+      <span
+        class={`text-sm transition-colors ${isYearly ? "font-normal text-gray-400 dark:text-gray-500" : "font-semibold text-gray-900 dark:text-white"}`}
+      >
         {toggle.monthly_label || "Monthly"}
       </span>
       <button
@@ -27,9 +29,13 @@ function BillingToggle({billing, setBilling, toggle}) {
         class={`relative inline-flex h-7 w-12 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${isYearly ? "bg-primary-600" : "bg-gray-300 dark:bg-gray-600"}`}
       >
         <span class="sr-only">Toggle billing period</span>
-        <span class={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${isYearly ? "translate-x-5" : "translate-x-0"}`} />
+        <span
+          class={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${isYearly ? "translate-x-5" : "translate-x-0"}`}
+        />
       </button>
-      <span class={`flex items-center gap-2 text-sm transition-colors ${isYearly ? "font-semibold text-gray-900 dark:text-white" : "font-normal text-gray-400 dark:text-gray-500"}`}>
+      <span
+        class={`flex items-center gap-2 text-sm transition-colors ${isYearly ? "font-semibold text-gray-900 dark:text-white" : "font-normal text-gray-400 dark:text-gray-500"}`}
+      >
         {toggle.yearly_label || "Yearly"}
         {toggle.yearly_discount && (
           <span class="inline-flex items-center rounded-full bg-green-50 dark:bg-green-900/20 px-2.5 py-0.5 text-xs font-semibold text-green-700 dark:text-green-400">
@@ -47,17 +53,12 @@ function PriceDisplay({price = {}, price_suffix, price_note, price_note_monthly,
   const isContact = raw === "" || raw == null;
   const isFree = String(raw) === "0";
 
-  // billing-aware note: per-billing field → static fallback
-  const note = billing === "yearly"
-    ? (price_note_yearly ?? price_note)
-    : (price_note_monthly ?? price_note);
+  const note = billing === "yearly" ? (price_note_yearly ?? price_note) : (price_note_monthly ?? price_note);
 
   if (isContact) {
     return (
       <div class="mb-6">
-        <p class="text-3xl font-bold text-gray-900 dark:text-white">
-          {price_note || "Contact us"}
-        </p>
+        <p class="text-3xl font-bold text-gray-900 dark:text-white">{price_note || "Contact us"}</p>
       </div>
     );
   }
@@ -85,7 +86,7 @@ function PriceDisplay({price = {}, price_suffix, price_note, price_note_monthly,
 
 function FeatureRow({feature}) {
   const text = typeof feature === "string" ? feature : (feature.text ?? "");
-  const included = typeof feature === "string" ? true : (feature.included !== false);
+  const included = typeof feature === "string" ? true : feature.included !== false;
   const note = typeof feature === "object" ? feature.note : null;
 
   return (
@@ -99,6 +100,66 @@ function FeatureRow({feature}) {
         {note && <span class="ml-1 text-xs text-gray-400 dark:text-gray-500">({note})</span>}
       </span>
     </li>
+  );
+}
+
+function TierCardContent({
+  name,
+  description,
+  price,
+  price_suffix,
+  price_note,
+  price_note_monthly,
+  price_note_yearly,
+  cta,
+  features,
+  billing,
+  icon_svgs,
+  highlight,
+}) {
+  const ctaStyle = cta.style || (highlight ? "primary" : "outline");
+  const ctaIconSvg = cta.icon ? (icon_svgs?.[cta.icon] ?? null) : null;
+  const isExternalCta = cta.url && (cta.url.startsWith("http://") || cta.url.startsWith("https://"));
+
+  return (
+    <>
+      <div class="mb-5">
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white">{name}</h3>
+        {description && <p class="mt-1.5 text-sm text-gray-500 dark:text-gray-400">{description}</p>}
+      </div>
+
+      <PriceDisplay
+        price={price}
+        price_suffix={price_suffix}
+        price_note={price_note}
+        price_note_monthly={price_note_monthly}
+        price_note_yearly={price_note_yearly}
+        billing={billing}
+      />
+
+      {cta.text && cta.url && (
+        <a
+          href={cta.url}
+          {...(isExternalCta ? {target: "_blank", rel: "noopener noreferrer"} : {})}
+          class={`mb-8 flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
+            ctaStyle === "primary"
+              ? "bg-gradient-to-r from-primary-600 to-secondary-600 text-white hover:from-primary-700 hover:to-secondary-700 shadow-sm hover:shadow-md"
+              : "ring-1 ring-inset ring-gray-300 dark:ring-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50"
+          }`}
+        >
+          {cta.text}
+          {ctaIconSvg && <Icon svg={ctaIconSvg} attributes={{class: "w-4 h-4 flex-shrink-0"}} />}
+        </a>
+      )}
+
+      {features.length > 0 && (
+        <ul class="mt-auto space-y-3 border-t border-gray-100 dark:border-gray-700/60 pt-6">
+          {features.map((f, i) => (
+            <FeatureRow key={i} feature={f} />
+          ))}
+        </ul>
+      )}
+    </>
   );
 }
 
@@ -117,62 +178,49 @@ function PricingTier({tier, billing, icon_svgs}) {
     features = [],
   } = tier;
 
-  const ctaStyle = cta.style || (highlight ? "primary" : "outline");
-  const ctaIconSvg = cta.icon ? (icon_svgs?.[cta.icon] ?? null) : null;
-  const isExternalCta = cta.url && (cta.url.startsWith("http://") || cta.url.startsWith("https://"));
+  const cardProps = {
+    name,
+    description,
+    price,
+    price_suffix,
+    price_note,
+    price_note_monthly,
+    price_note_yearly,
+    cta,
+    features,
+    billing,
+    icon_svgs,
+    highlight,
+  };
+
+  if (highlight) {
+    return (
+      <div class="relative">
+        {badge && (
+          <div class="absolute -top-4 inset-x-0 flex justify-center z-10">
+            <span class="inline-flex items-center rounded-full bg-gradient-to-r from-primary-600 to-secondary-600 px-4 py-1 text-xs font-semibold text-white shadow-sm">
+              {badge}
+            </span>
+          </div>
+        )}
+        {/* Gradient border: 1px gradient ring via padding + colored wrapper */}
+        <div class="rounded-3xl p-px bg-gradient-to-br from-primary-400 via-primary-500 to-secondary-500 shadow-2xl">
+          <div class="flex flex-col rounded-3xl p-8 bg-white dark:bg-gray-900 h-full">
+            <TierCardContent {...cardProps} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div
-      class={`relative flex flex-col rounded-3xl p-8 transition-shadow duration-200 ${
-        highlight
-          ? "ring-2 ring-primary-500 shadow-2xl bg-primary-50 dark:bg-primary-900/10 scale-[1.03]"
-          : "ring-1 ring-gray-200 dark:ring-gray-700 bg-white dark:bg-gray-800 hover:shadow-xl"
-      }`}
-    >
+    <div class="relative flex flex-col rounded-3xl p-8 ring-1 ring-gray-200 dark:ring-gray-700 bg-white dark:bg-gray-800 hover:shadow-xl transition-shadow duration-200">
       {badge && (
         <div class="absolute -top-4 inset-x-0 flex justify-center">
-          <span class="inline-flex items-center rounded-full bg-primary-600 px-4 py-1 text-xs font-semibold text-white shadow-sm">
-            {badge}
-          </span>
+          <span class="inline-flex items-center rounded-full bg-primary-600 px-4 py-1 text-xs font-semibold text-white shadow-sm">{badge}</span>
         </div>
       )}
-
-      <div class="mb-5">
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white">{name}</h3>
-        {description && (
-          <p class="mt-1.5 text-sm text-gray-500 dark:text-gray-400">{description}</p>
-        )}
-      </div>
-
-      <PriceDisplay
-        price={price}
-        price_suffix={price_suffix}
-        price_note={price_note}
-        price_note_monthly={price_note_monthly}
-        price_note_yearly={price_note_yearly}
-        billing={billing}
-      />
-
-      {cta.text && cta.url && (
-        <a
-          href={cta.url}
-          {...(isExternalCta ? {target: "_blank", rel: "noopener noreferrer"} : {})}
-          class={`mb-8 flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
-            ctaStyle === "primary"
-              ? "bg-primary-600 text-white hover:bg-primary-700 shadow-sm hover:shadow-md"
-              : "ring-1 ring-inset ring-primary-500 text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20"
-          }`}
-        >
-          {cta.text}
-          {ctaIconSvg && <Icon svg={ctaIconSvg} attributes={{class: "w-4 h-4 flex-shrink-0"}} />}
-        </a>
-      )}
-
-      {features.length > 0 && (
-        <ul class="mt-auto space-y-3 border-t border-gray-100 dark:border-gray-700 pt-6">
-          {features.map((f, i) => <FeatureRow key={i} feature={f} />)}
-        </ul>
-      )}
+      <TierCardContent {...cardProps} />
     </div>
   );
 }
@@ -180,19 +228,13 @@ function PricingTier({tier, billing, icon_svgs}) {
 export const PricingBlock = ({content = {}, icon_svgs = {}}) => {
   const {title, subtitle, billing_toggle = {}, tiers = []} = content;
 
-  const hasYearlyPrices = tiers.some(
-    (t) => t.price?.yearly != null && t.price.yearly !== t.price.monthly
-  );
+  const hasYearlyPrices = tiers.some((t) => t.price?.yearly != null && t.price.yearly !== t.price.monthly);
   const showToggle = billing_toggle.enabled && hasYearlyPrices;
 
   const [billing, setBilling] = useState("monthly");
 
   const colsClass =
-    tiers.length === 1
-      ? "max-w-sm mx-auto"
-      : tiers.length === 2
-      ? "max-w-4xl mx-auto grid-cols-1 sm:grid-cols-2"
-      : "grid-cols-1 md:grid-cols-3";
+    tiers.length === 1 ? "max-w-sm mx-auto" : tiers.length === 2 ? "max-w-4xl mx-auto grid-cols-1 sm:grid-cols-2" : "grid-cols-1 md:grid-cols-3";
 
   return (
     <div class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
@@ -205,20 +247,13 @@ export const PricingBlock = ({content = {}, icon_svgs = {}}) => {
                 dangerouslySetInnerHTML={{__html: renderText(title)}}
               />
             )}
-            {subtitle && (
-              <p
-                class="text-lg text-gray-600 dark:text-gray-400"
-                dangerouslySetInnerHTML={{__html: renderText(subtitle)}}
-              />
-            )}
+            {subtitle && <p class="text-lg text-gray-600 dark:text-gray-400" dangerouslySetInnerHTML={{__html: renderText(subtitle)}} />}
           </div>
         )}
 
-        {showToggle && (
-          <BillingToggle billing={billing} setBilling={setBilling} toggle={billing_toggle} />
-        )}
+        {showToggle && <BillingToggle billing={billing} setBilling={setBilling} toggle={billing_toggle} />}
 
-        {/* pt-6 clears space for the absolutely-positioned badge on the highlighted tier */}
+        {/* pt-6 gives clearance for absolutely-positioned badges */}
         <div class={`grid gap-8 pt-6 ${colsClass}`}>
           {tiers.map((tier, i) => (
             <PricingTier key={i} tier={tier} billing={billing} icon_svgs={icon_svgs} />

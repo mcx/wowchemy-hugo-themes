@@ -6,7 +6,11 @@ function renderText(text) {
   return String(text)
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
     .replace(/\*(.*?)\*/g, "<em>$1</em>")
-    .replace(/`(.*?)`/g, (_, code) => `<code class="px-1.5 py-0.5 rounded font-mono text-sm bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200">${code}</code>`);
+    .replace(
+      /`(.*?)`/g,
+      (_, code) =>
+        `<code class="px-1.5 py-0.5 rounded font-mono text-sm bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200">${code}</code>`,
+    );
 }
 
 function toRoman(n) {
@@ -47,9 +51,9 @@ function StepMarker({idx, iconSvg, markerStyle, numbering, size = "sm"}) {
     );
   }
 
-  const dim   = size === "lg" ? "w-14 h-14 text-base" : "w-10 h-10 text-sm";
+  const dim = size === "lg" ? "w-14 h-14 text-base" : "w-10 h-10 text-sm";
   const iconH = size === "lg" ? "1.75rem" : "1.25rem";
-  const base  = `${dim} flex items-center justify-center rounded-full flex-shrink-0 font-bold`;
+  const base = `${dim} flex items-center justify-center rounded-full flex-shrink-0 font-bold`;
 
   // Vertical/timeline icon — keep circle for visual anchoring against the connector line
   if (markerStyle === "icon" && iconSvg) {
@@ -60,27 +64,17 @@ function StepMarker({idx, iconSvg, markerStyle, numbering, size = "sm"}) {
     );
   }
 
-  return (
-    <div class={`${base} bg-primary-600 dark:bg-primary-500 text-white`}>
-      {markerLabel(idx, numbering)}
-    </div>
-  );
+  return <div class={`${base} bg-primary-600 dark:bg-primary-500 text-white`}>{markerLabel(idx, numbering)}</div>;
 }
 
 function StepBody({step, imgData}) {
-  const isExtCta =
-    step.cta?.url &&
-    (step.cta.url.startsWith("http://") || step.cta.url.startsWith("https://"));
+  const isExtCta = step.cta?.url && (step.cta.url.startsWith("http://") || step.cta.url.startsWith("https://"));
 
   return (
     <>
       {(step.badge || step.date) && (
         <div class="flex items-center gap-2 mb-2">
-          {step.date && (
-            <span class="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wide">
-              {step.date}
-            </span>
-          )}
+          {step.date && <span class="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wide">{step.date}</span>}
           {step.badge && (
             <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-primary-100 dark:bg-primary-900/60 text-primary-700 dark:text-primary-300">
               {step.badge}
@@ -89,24 +83,10 @@ function StepBody({step, imgData}) {
         </div>
       )}
       {step.title && (
-        <h3
-          class="text-lg font-semibold text-gray-900 dark:text-white mb-2"
-          dangerouslySetInnerHTML={{__html: renderText(step.title)}}
-        />
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2" dangerouslySetInnerHTML={{__html: renderText(step.title)}} />
       )}
-      {step.text && (
-        <p
-          class="text-gray-500 dark:text-gray-400 leading-relaxed"
-          dangerouslySetInnerHTML={{__html: renderText(step.text)}}
-        />
-      )}
-      {imgData && (
-        <img
-          src={imgData.src}
-          alt={step.title || ""}
-          class="mt-4 rounded-xl shadow-sm w-full object-cover max-h-60"
-        />
-      )}
+      {step.text && <p class="text-gray-500 dark:text-gray-400 leading-relaxed" dangerouslySetInnerHTML={{__html: renderText(step.text)}} />}
+      {imgData && <img src={imgData.src} alt={step.title || ""} class="mt-4 rounded-xl shadow-sm w-full object-cover max-h-60" />}
       {step.cta?.text && step.cta?.url && (
         <a
           href={step.cta.url}
@@ -134,18 +114,11 @@ function VerticalSteps({steps, markerStyle, numbering, connector, icon_svgs, ite
         return (
           <li key={i} class="step-item flex gap-5">
             <div class="flex flex-col items-center flex-shrink-0">
-              <StepMarker
-                idx={i}
-                iconSvg={iconSvg}
-                markerStyle={markerStyle}
-                numbering={numbering}
-              />
+              <StepMarker idx={i} iconSvg={iconSvg} markerStyle={markerStyle} numbering={numbering} />
               {!isLast && connector !== "none" && (
                 <div
                   class={`flex-1 w-0.5 my-2 ${
-                    isDashed
-                      ? "border-l-2 border-dashed border-gray-200 dark:border-gray-700"
-                      : "bg-gray-200 dark:bg-gray-700"
+                    isDashed ? "border-l-2 border-dashed border-gray-200 dark:border-gray-700" : "bg-gray-200 dark:bg-gray-700"
                   }`}
                   style="min-height: 1.25rem"
                 />
@@ -173,25 +146,12 @@ function HorizontalSteps({steps, markerStyle, numbering, connector, icon_svgs}) 
           const iconSvg = step.icon ? (icon_svgs?.[step.icon] ?? null) : null;
           return (
             <li key={i} class="step-item flex gap-4 items-start">
-              <StepMarker
-                idx={i}
-                iconSvg={iconSvg}
-                markerStyle={markerStyle}
-                numbering={numbering}
-              />
+              <StepMarker idx={i} iconSvg={iconSvg} markerStyle={markerStyle} numbering={numbering} />
               <div class="pt-0.5 flex-1 min-w-0">
                 {step.title && (
-                  <h3
-                    class="font-semibold text-gray-900 dark:text-white mb-1"
-                    dangerouslySetInnerHTML={{__html: renderText(step.title)}}
-                  />
+                  <h3 class="font-semibold text-gray-900 dark:text-white mb-1" dangerouslySetInnerHTML={{__html: renderText(step.title)}} />
                 )}
-                {step.text && (
-                  <p
-                    class="text-sm text-gray-500 dark:text-gray-400"
-                    dangerouslySetInnerHTML={{__html: renderText(step.text)}}
-                  />
-                )}
+                {step.text && <p class="text-sm text-gray-500 dark:text-gray-400" dangerouslySetInnerHTML={{__html: renderText(step.text)}} />}
                 {step.cta?.text && step.cta?.url && (
                   <a
                     href={step.cta.url}
@@ -214,9 +174,7 @@ function HorizontalSteps({steps, markerStyle, numbering, connector, icon_svgs}) 
           {connector !== "none" && (
             <div
               class={`absolute top-7 left-7 right-7 h-0.5 ${
-                isDashed
-                  ? "border-t-2 border-dashed border-gray-200 dark:border-gray-700"
-                  : "bg-gray-200 dark:bg-gray-700"
+                isDashed ? "border-t-2 border-dashed border-gray-200 dark:border-gray-700" : "bg-gray-200 dark:bg-gray-700"
               }`}
             />
           )}
@@ -224,13 +182,7 @@ function HorizontalSteps({steps, markerStyle, numbering, connector, icon_svgs}) 
             const iconSvg = step.icon ? (icon_svgs?.[step.icon] ?? null) : null;
             return (
               <div key={i} class="step-item relative z-10 flex flex-col items-center">
-                <StepMarker
-                  idx={i}
-                  iconSvg={iconSvg}
-                  markerStyle={markerStyle}
-                  numbering={numbering}
-                  size="lg"
-                />
+                <StepMarker idx={i} iconSvg={iconSvg} markerStyle={markerStyle} numbering={numbering} size="lg" />
               </div>
             );
           })}
@@ -246,16 +198,10 @@ function HorizontalSteps({steps, markerStyle, numbering, connector, icon_svgs}) 
                 </span>
               )}
               {step.title && (
-                <h3
-                  class="text-base font-bold text-gray-900 dark:text-white mb-1.5"
-                  dangerouslySetInnerHTML={{__html: renderText(step.title)}}
-                />
+                <h3 class="text-base font-bold text-gray-900 dark:text-white mb-1.5" dangerouslySetInnerHTML={{__html: renderText(step.title)}} />
               )}
               {step.text && (
-                <p
-                  class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed"
-                  dangerouslySetInnerHTML={{__html: renderText(step.text)}}
-                />
+                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed" dangerouslySetInnerHTML={{__html: renderText(step.text)}} />
               )}
               {step.cta?.text && step.cta?.url && (
                 <a
@@ -286,30 +232,17 @@ function TimelineSteps({steps, markerStyle, numbering, icon_svgs, item_images}) 
           const isLeft = i % 2 === 0;
           const iconSvg = step.icon ? (icon_svgs?.[step.icon] ?? null) : null;
           const imgData = item_images?.[String(i)] ?? null;
-          const isExtCta =
-            step.cta?.url &&
-            (step.cta.url.startsWith("http://") || step.cta.url.startsWith("https://"));
+          const isExtCta = step.cta?.url && (step.cta.url.startsWith("http://") || step.cta.url.startsWith("https://"));
 
           return (
-            <li
-              key={i}
-              class={`step-item flex items-start gap-4 md:gap-0 ${
-                isLeft ? "md:flex-row" : "md:flex-row-reverse"
-              }`}
-            >
+            <li key={i} class={`step-item flex items-start gap-4 md:gap-0 ${isLeft ? "md:flex-row" : "md:flex-row-reverse"}`}>
               {/* Content card */}
-              <div
-                class={`flex-1 md:max-w-[calc(50%-2rem)] ${
-                  isLeft ? "md:pr-8" : "md:pl-8"
-                }`}
-              >
+              <div class={`flex-1 md:max-w-[calc(50%-2rem)] ${isLeft ? "md:pr-8" : "md:pl-8"}`}>
                 <div class="bg-white dark:bg-gray-800/80 rounded-2xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm hover:shadow-md transition-shadow duration-300">
                   {(step.badge || step.date) && (
                     <div class="flex items-center gap-2 mb-3">
                       {step.date && (
-                        <span class="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wide">
-                          {step.date}
-                        </span>
+                        <span class="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wide">{step.date}</span>
                       )}
                       {step.badge && (
                         <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-primary-100 dark:bg-primary-900/60 text-primary-700 dark:text-primary-300">
@@ -325,18 +258,9 @@ function TimelineSteps({steps, markerStyle, numbering, icon_svgs, item_images}) 
                     />
                   )}
                   {step.text && (
-                    <p
-                      class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed"
-                      dangerouslySetInnerHTML={{__html: renderText(step.text)}}
-                    />
+                    <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed" dangerouslySetInnerHTML={{__html: renderText(step.text)}} />
                   )}
-                  {imgData && (
-                    <img
-                      src={imgData.src}
-                      alt={step.title || ""}
-                      class="mt-3 rounded-lg w-full object-cover max-h-48"
-                    />
-                  )}
+                  {imgData && <img src={imgData.src} alt={step.title || ""} class="mt-3 rounded-lg w-full object-cover max-h-48" />}
                   {step.cta?.text && step.cta?.url && (
                     <a
                       href={step.cta.url}
@@ -351,13 +275,7 @@ function TimelineSteps({steps, markerStyle, numbering, icon_svgs, item_images}) 
 
               {/* Center marker */}
               <div class="relative z-10 flex-shrink-0">
-                <StepMarker
-                  step={step}
-                  idx={i}
-                  iconSvg={iconSvg}
-                  markerStyle={markerStyle}
-                  numbering={numbering}
-                />
+                <StepMarker step={step} idx={i} iconSvg={iconSvg} markerStyle={markerStyle} numbering={numbering} />
               </div>
 
               {/* Spacer on opposite side (desktop) */}
@@ -436,11 +354,7 @@ export const StepsBlock = ({content = {}, design = {}, icon_svgs = {}, item_imag
   const containerRef = useRef(null);
   useStepAnimation(containerRef);
 
-  const steps = Array.isArray(content.items)
-    ? content.items
-    : Array.isArray(content.steps)
-      ? content.steps
-      : [];
+  const steps = Array.isArray(content.items) ? content.items : Array.isArray(content.steps) ? content.steps : [];
 
   const {title, subtitle, text} = content;
   const layout = design.layout || "vertical";
@@ -449,8 +363,7 @@ export const StepsBlock = ({content = {}, design = {}, icon_svgs = {}, item_imag
   const connector = design.connector || "line";
 
   const isCentered = layout === "horizontal" || layout === "timeline";
-  const maxW =
-    layout === "horizontal" ? "max-w-5xl" : layout === "timeline" ? "max-w-4xl" : "max-w-2xl";
+  const maxW = layout === "horizontal" ? "max-w-5xl" : layout === "timeline" ? "max-w-4xl" : "max-w-2xl";
 
   return (
     <div class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8" ref={containerRef}>
@@ -459,11 +372,7 @@ export const StepsBlock = ({content = {}, design = {}, icon_svgs = {}, item_imag
       <div class={`mx-auto ${maxW}`}>
         {(title || subtitle || text) && (
           <div class={`mb-10 sm:mb-14 ${isCentered ? "text-center" : ""}`}>
-            {subtitle && (
-              <p class="text-sm font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-3">
-                {subtitle}
-              </p>
-            )}
+            {subtitle && <p class="text-sm font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-3">{subtitle}</p>}
             {title && (
               <h2
                 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl mb-3"
@@ -480,22 +389,10 @@ export const StepsBlock = ({content = {}, design = {}, icon_svgs = {}, item_imag
         )}
 
         {layout === "horizontal" && (
-          <HorizontalSteps
-            steps={steps}
-            markerStyle={markerStyle}
-            numbering={numbering}
-            connector={connector}
-            icon_svgs={icon_svgs}
-          />
+          <HorizontalSteps steps={steps} markerStyle={markerStyle} numbering={numbering} connector={connector} icon_svgs={icon_svgs} />
         )}
         {layout === "timeline" && (
-          <TimelineSteps
-            steps={steps}
-            markerStyle={markerStyle}
-            numbering={numbering}
-            icon_svgs={icon_svgs}
-            item_images={item_images}
-          />
+          <TimelineSteps steps={steps} markerStyle={markerStyle} numbering={numbering} icon_svgs={icon_svgs} item_images={item_images} />
         )}
         {layout !== "horizontal" && layout !== "timeline" && (
           <VerticalSteps
