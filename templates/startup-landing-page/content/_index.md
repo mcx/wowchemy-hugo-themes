@@ -36,16 +36,16 @@ sections:
           position: "50% -10%"
           shape: ellipse
           size: "80% 80%"
-        # Subtle mesh orbs add depth without competing with the headline
+        # Mesh orbs add depth and atmosphere on top of the radial glow
         gradient_mesh:
           enable: true
           style: orbs
-          intensity: subtle
+          intensity: medium
           animation: pulse
-          colors: ["primary-500/15", "secondary-500/15"]
+          colors: ["primary-500/25", "secondary-500/25"]
           orb_count: 2
-          positions: ["top-1/4 left-1/4", "bottom-1/4 right-1/4"]
-          sizes: ["w-[28rem] h-[28rem]", "w-[24rem] h-[24rem]"]
+          positions: ["top-1/3 left-1/4", "bottom-1/3 right-1/4"]
+          sizes: ["w-[32rem] h-[32rem]", "w-[26rem] h-[26rem]"]
   - block: logos
     content:
       title: Trusted by teams at
