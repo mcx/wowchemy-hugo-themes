@@ -85,10 +85,13 @@ sections:
           name: Vercel
     design:
       layout: marquee
-      logo_style: grayscale
+      # White logos read cleanly against the dark band; both styles work — see logos block schema
+      logo_style: white
       logo_size: md
       marquee_speed: 35
-      css_class: "bg-gray-50 dark:bg-gray-900"
+      # `dark` activates child components' `dark:` variants, `bg-gray-900` paints the band.
+      # Extends the dark zone from the hero, so the hero's fade-bottom no longer reveals a light strip.
+      css_class: "dark bg-gray-900"
       spacing:
         padding: ["2rem", 0, "2rem", 0]
 
