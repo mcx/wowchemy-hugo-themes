@@ -1,3 +1,5 @@
-This file provides guidance to AI Agents when working with code in this repository.
+This file is the technical source of truth for AI agents and human contributors working in this repository.
 
 @AGENTS.local.md
+
+---

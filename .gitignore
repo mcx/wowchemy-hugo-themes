@@ -6,8 +6,8 @@
 # Local Agent Files
 # ============================================================================
 
-AGENTS.local.md
-CLAUDE.local.md
+AGENTS.local*.md
+CLAUDE.local*.md
 .claude/settings.json
 
 # ============================================================================
